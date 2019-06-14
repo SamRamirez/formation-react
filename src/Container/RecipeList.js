@@ -14,6 +14,15 @@ state = {
     addMode: false,
     }; 
 
+    getById = (recipe) => {
+        axios.get(`http://10.0.1.119:8080/api/v1/recipes/${recipe.id}`)
+          .then(res => {
+            console.log(recipe);
+            console.log(res.data)
+          },
+        error => console.log(error))
+    }
+
     getAll = () => {
         axios.get(`http://10.0.1.119:8080/api/v1/recipes`)
           .then(res => {
@@ -26,6 +35,15 @@ state = {
 
     componentDidMount() {
         this.getAll()
+    }
+
+
+    patch = (recipe) => {
+        axios.patch(`http://10.0.1.119:8080/api/v1/recipes/`, recipe)
+            .then(res => {
+                console.log("NOUS PATCHONS" + res);
+            }, error => console.log(error))
+        this.getAll()    
     }
 
 
@@ -50,13 +68,10 @@ state = {
         axios.post(`http://10.0.1.119:8080/api/v1/recipes/`, { ...newRecipe })
       .then(res => {
         console.log(res);
+        this.getAll();
         console.log(res.data);
       }, error => console.log(error))
     }
-    
-    
-
-
 
     // add = (recipe) => {
     //     this.setState({
@@ -132,7 +147,7 @@ state = {
         <div className = "row">
             {this.state.recipes.map(item => 
             <div key = {item.id} className = "col-sm-12 col-lg-2 col-md-3">
-                <RecipeDetail key = {item.id} recipe = {item} delete={this.delete}/>             
+                <RecipeDetail key = {item.id} recipe = {item} getOne = {this.getById} delete={this.delete} patch={this.patch}/>         
             </div>
             ) }
             <div className="col-md-3">

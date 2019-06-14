@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { Card, CardImg, CardText, CardBody, CardTitle, Button } from 'reactstrap'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faTrash, faPen} from '@fortawesome/free-solid-svg-icons'
+import {faTrash, faPen, faThumbsUp} from '@fortawesome/free-solid-svg-icons'
 
 class RecipeDetail extends Component{
 
@@ -17,10 +17,14 @@ class RecipeDetail extends Component{
         // !this.state.recipe.id && this.setState({recipe: {...this.state.recipe, id: this.props.set()}}) && console.log("postSetid" + this.state.recipe.id); 
         // console.log(this.state.recipe.id)
         // this.props.addMode && this.props.maj(this.state.recipe)
+        
         if(this.props.addMode){
             this.props.add(this.state.recipe)
         }
         this.state.recipe.id && console.log("j'ai un id" , this.state.recipe.id);
+        console.log("patch ? ")
+        if(this.state.editMode && !this.props.addMode){ this.props.patch(this.state.recipe) }
+        console.log("PATCH ! ")
 
     }
 
@@ -69,6 +73,10 @@ class RecipeDetail extends Component{
                 this.props.recipe &&
                 // <Button onClick={recipe && this.props.delete(this.props.recipe.id)}><FontAwesomeIcon icon={faTrash}/></Button>
                 <Button onClick={recipe && this.props.delete(this.props.recipe)}><FontAwesomeIcon icon={faTrash}/></Button>
+            }
+            {    
+                this.props.recipe &&
+                <Button href="/ingredients" onClick={recipe && this.props.getOne(this.props.recipe.id)}><FontAwesomeIcon icon={faThumbsUp}/></Button>
             }
             {/*c'est chiant car il faudrait un formulaire*/}
             {/* <Button onClick={this.props.modify(this.props.recipe.id, newTxt)}><FontAwesomeIcon icon={faTrash}/></Button> */}
